@@ -5,7 +5,8 @@ import threading
 
         
 class HardwareInterface(threading.Thread):
-    def initialize(self):
+    def __init__(self):
+        super(HardwareInterface, self).__init__()
         self.running = False
         self.coil_A_1_pin = 18# 4
         self.coil_A_2_pin = 23#17
@@ -13,29 +14,31 @@ class HardwareInterface(threading.Thread):
         self.coil_B_2_pin = 25 #24
         self.bzzz = 4
         self.trigger = 27 #22
-    
+        print "setting up io"
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.coil_A_1_pin, GPIO.OUT)
         GPIO.setup(self.coil_A_2_pin, GPIO.OUT)
         GPIO.setup(self.coil_B_1_pin, GPIO.OUT)
         GPIO.setup(self.coil_B_2_pin, GPIO.OUT)
         GPIO.setup(self.bzzz, GPIO.OUT)
-        GPIO.setup(self.trigger_pin, GPIO.IN)
+        GPIO.setup(self.trigger, GPIO.IN)
 
-        self.delay = 10
         self.step = 0
-        self.max_steps = 10
+        self.max_steps = 4
         self.dispensing = False
 
         self.buzz = False
+        self.buzz_count = 0
         self.buzz_max = 100
-        self.delay=0.001
+        self.delay=0.01
 
     def dispense(self):
         if not self.dispensing:
             self.step=0
             self.dispensing = True
             
-    def buzz(self):
+    def buzz_once(self):
         if not self.buzz:
             self.buzz_count = 0
             self.buzz = True
@@ -60,7 +63,7 @@ class HardwareInterface(threading.Thread):
         time.sleep(self.delay)
         self.set_step(1, 0, 1, 0)
  
-    def setStep(self,w1, w2, w3, w4):
+    def set_step(self,w1, w2, w3, w4):
         GPIO.output(self.coil_A_1_pin, w1)
         GPIO.output(self.coil_A_2_pin, w2)
         GPIO.output(self.coil_B_1_pin, w3)
@@ -70,10 +73,17 @@ class HardwareInterface(threading.Thread):
         GPIO.output(self.bzzz,1)
 
     def turn_off_buzzer(self):
-        GPIO.output(self.bzzz,1)
+        GPIO.output(self.bzzz,0)
 
     def power_down(self):
         self.running = False
+        time.sleep(0.01)
+        GPIO.output(self.coil_A_1_pin,0)
+        GPIO.output(self.coil_A_2_pin,0)
+        GPIO.output(self.coil_B_1_pin,0)
+        GPIO.output(self.coil_B_2_pin,0) 
+        GPIO.output(self.bzzz, 0)
+
         
     def run(self):
         self.running = True
@@ -84,7 +94,7 @@ class HardwareInterface(threading.Thread):
                     self.turn_off_buzzer()
                     self.buzz = False
         
-            elif( self.dispensing ):
+            if( self.dispensing ):
                 self.forward_step()
                 self.step += 1
                 if( self.step >= self.max_steps):

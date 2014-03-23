@@ -1,20 +1,29 @@
-import HardwareInterface
+import HardwareInterface as hwi
 import time
+import signal
 
+hw = hwi.HardwareInterface()
 
-hw = HardwareInterface()
-hw.run()
+def signal_handler(signal, frame):
+    hw.join()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+hw.start()
 
 print "buzz"
-hw.buzz()
-time.sleep(1)
+hw.buzz_once()
+time.sleep(3)
 
 
 print "dispense"
 hw.dispense()
-time.sleep(1)
+time.sleep(2)
 
 print "buzz dispense"
-hw.buzz()
+hw.buzz_once()
 hw.dispense()
-time.sleep(1)
+time.sleep(3)
+hw.power_down()
+hw.join()
