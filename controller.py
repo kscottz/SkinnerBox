@@ -4,13 +4,14 @@ import time
  
 GPIO.setmode(GPIO.BCM)
  
-enable_pin = 18
-coil_A_1_pin = 4
-coil_A_2_pin = 17
-coil_B_1_pin = 23
-coil_B_2_pin = 24
-bzzz = 25
-trigger_pin = 22
+enable_pin = 22 #18
+coil_A_1_pin = 18# 4
+coil_A_2_pin = 23#17
+coil_B_1_pin = 24 #23
+coil_B_2_pin = 25 #24
+
+bzzz = 4
+trigger_pin = 27 #22
  
 GPIO.setup(enable_pin, GPIO.OUT)
 GPIO.setup(coil_A_1_pin, GPIO.OUT)
@@ -57,7 +58,7 @@ def setStep(w1, w2, w3, w4):
  
 
 steps = 5
-delay = 15
+delay = 10
 i = 0
 
 while True:
