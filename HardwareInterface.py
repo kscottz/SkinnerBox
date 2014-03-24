@@ -28,6 +28,10 @@ class HardwareInterface(threading.Thread):
         self.max_steps = 4
         self.dispensing = False
 
+        self.last_button_state = False
+        self.down_cb = []
+        self.up_cb = []
+
         self.buzz = False
         self.buzz_count = 0
         self.buzz_max = 100
@@ -43,6 +47,13 @@ class HardwareInterface(threading.Thread):
             self.buzz_count = 0
             self.buzz = True
             self.turn_on_buzzer()
+
+    def on_button_down(self,cb):
+        self.down_cb.append(cb)
+
+    def on_button_up(self,cb):
+        self.up_cb.append(cb)
+        
 
     def forward_step(self):  
         self.set_step(1, 0, 1, 0)
@@ -99,7 +110,18 @@ class HardwareInterface(threading.Thread):
                 self.step += 1
                 if( self.step >= self.max_steps):
                     self.dispensing = False
-            
+            # button up
+            if( self.last_button_state and 
+                GPIO.input(self.trigger) == False ):
+                self.last_button_state = False
+                for cb in self.up_cb:
+                    cb()
+            # button down
+            if( not self.last_button_state and 
+                GPIO.input(self.trigger) == True ):
+                self.last_button_state = True
+                for cb in self.down_cb:
+                    cb()
             time.sleep(self.delay)
         
        

@@ -25,5 +25,16 @@ print "buzz dispense"
 hw.buzz_once()
 hw.dispense()
 time.sleep(3)
+
+def buzzbuzz():
+    hw.dispense()
+
+hw.on_button_down(buzzbuzz)
+
+time.sleep(20)
+
+
+
+
 hw.power_down()
 hw.join()
