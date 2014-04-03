@@ -60,15 +60,22 @@ def setStep(w1, w2, w3, w4):
 steps = 5
 delay = 10
 i = 0
-
+dir = "forward"
 while True:
   print GPIO.input(trigger_pin)
   if( GPIO.input(trigger_pin) == False ):
-    forward(int(delay) / 1000.0, int(steps))
-    GPIO.output(bzzz,1)
-    name = "Image{0}.jpg".format(i)
-    os.system("raspistill -t 0.01 -o "+name)
-    time.sleep(0.3)
-    i+=1
+    if( dir == "forward" ):
+      dir = "back"
+    else:
+      dir="forward"
+    #forward(int(delay) / 1000.0, int(steps))
+    #GPIO.output(bzzz,1)
+    #name = "Image{0}.jpg".format(i)
+    #os.system("raspistill -t 0.01 -o "+name)
+    #time.sleep(0.3)
+    #i+=1
   else:
-    backwards(int(delay) / 1000.0,int(1))
+    if( dir == "forward" ):
+      forward(int(delay) / 1000.0, int(1))
+    else:
+      backwards(int(delay) / 1000.0,int(1))

@@ -1,52 +1,50 @@
 import os
 import io
 import cv2
-import time
+import cv
 import picamera
 import threading
 import numpy as np
+import time
 
 class CameraInterface(threading.Thread):
     def __init__(self,img_path):
-        super(HardwareInterface, self).__init__()
-        self.img_path
+        super(CameraInterface, self).__init__()
+        self.img_path = img_path
         self.img_sz = (320,240)
         self.running = False
-        self.delay=1.0
-        self.current_image = None
-        self.current_image_gray = None
-        self.last_image = None
-        self.last_image_gray = None
-        self._stream = io.BytesIO()
-        self._mx = cv2.cv.CreateImage(self.img_sz, cv2.cv.IPL_DEPTH_32F, 1)
-        self._my = cv2.cv.CreateImage(self.img_sz, cv2.cv.IPL_DEPTH_32F, 1)
-        
+        self.delay=0.01
+        self._current_image = None
+        self._last_image = None 
+        self._cvlist = []
+
         
     def set_motion_callback(self,cb):
-        pass
+        self._cvlist.append(cb)
 
     def shutdown(self):
         self.running = False
 
     def _calculate_motion(self):
-        cv2.cvtColor(self._current_image,self._current_image_gray,cv2.CV_RGB2GRAY)
-        if( self._current_image_gray ):
-            window = (11,11)
-            cv.CalcOpticalFlowLK(self.current_image_gray,
-                                 self.last_image_gray,
-                                 window,
-                                 self._mx,self._my)
-           
-
+        if( self._last_image is None ):
+            temp = cv2.cvtColor(self._current_image,cv2.cv.CV_BGR2GRAY)
+            self._last_image = temp        
+        temp = cv2.cvtColor(self._current_image,cv2.cv.CV_BGR2GRAY)
+        diff = self._last_image-temp 
+        print diff
+        change =  np.mean(np.abs(diff))
+        print change
+        self._last_image = (0.2*temp)+(self._last_image*0.8)
+        for cb in self._cvlist:
+            cb(change)
+            
     def _get_image(self):
-        self._last_image = self._current_image
-        self._last_image_gray = self.current_image_gray
+        #self._last_image = self._current_image
+        stream = io.BytesIO()
         with picamera.PiCamera() as camera:
             camera.start_preview()
-            time.sleep(0.5)
-            camera.capture(self._stream, format='jpeg',resize=self.img_sz)
-            # Construct a numpy array from the stream
-        data = np.fromstring(self._stream.getvalue(), dtype=np.uint8)
+            camera.capture(stream, format='png',resize=self.img_sz)
+        data = np.fromstring(stream.getvalue(), dtype=np.uint8)
         # "Decode" the image from the array, preserving colour
         self._current_image = cv2.imdecode(data, 1)
         cv2.imwrite(self.img_path,self._current_image)
