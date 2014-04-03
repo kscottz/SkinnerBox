@@ -9,8 +9,17 @@ def server_static(filename):
 
 @get('/')
 def captureTopImg():
-    return """<html><body><center><h1>
+    return """<html>
+
+    <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="http://d3js.org/d3.v2.js"></script>  
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="bootstrap.min.js"></script>
+    
+    <body><center><h1>
+    <div class="container">
         Top camera not connected.
+    </div>
         </html></body></center></h1>
         """
 @route('/derp/')
@@ -28,5 +37,5 @@ if __name__ == '__main__':
     #                     help='Start the server with no cameras attached')
     signal.signal(signal.SIGINT, signal_handler)
 
-    run(host='192.168.1.42', port=8080)
+    run(host='localhost', port=8080)
     exit(0)
