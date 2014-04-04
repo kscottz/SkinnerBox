@@ -1,0 +1,51 @@
+from pymongo import MongoClient
+import matplotlib.pyplot as plt
+import numpy as np
+from  datetime import datetime
+
+class DataInterface():
+    def __init__(self,uri='mongodb://localhost:27017',db_name="SkinnerBox"):
+        self.client = None
+        self. = None
+        try:
+            self.client = MongoClient(uri)
+            print self.client
+            self.db = self.client[db_name]
+            self.activity = self.db.activity
+            self.events = self.db.events
+            self.experiment = self.db.experiment
+        except:
+            print "Golly, we can't connect to Mongo."
+            
+
+    def log_activity(self,activity):
+        data = {}
+        data['activity'] = activity
+        data['time_stamp'] = datetime.now()
+        self.activity.insert(data)
+
+    def log_experient(self,success):
+        data = {}
+        data['success'] = success
+        data['time_stamp'] = datetime.now()
+        self.experiment.insert(data)
+
+    def log_buzz(self):
+        data = {}
+        data['event'] = "buzz"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+       
+    def log_press(self):
+        data = {}
+        data['event'] = "press"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
+    def log_food(self):
+        data = {}
+        data['event'] = "food"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
+
