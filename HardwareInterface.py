@@ -32,7 +32,9 @@ class HardwareInterface(threading.Thread):
         self.last_button_state = False
         self.down_cb = []
         self.up_cb = []
-
+        self.feed_cb = []
+        self.buzz_cb = []
+        
         self.buzz = False
         self.buzz_count = 0
         self.buzz_max = 100
@@ -42,19 +44,31 @@ class HardwareInterface(threading.Thread):
         if not self.dispensing:
             self.step=0
             self.dispensing = True
+            for cb in self.feed_cb:
+                cb()
+
             
     def buzz_once(self):
         if not self.buzz:
             self.buzz_count = 0
             self.buzz = True
             self.turn_on_buzzer()
+            for cb in self.buzz_cb:
+                cb()
+
 
     def on_button_down(self,cb):
         self.down_cb.append(cb)
 
     def on_button_up(self,cb):
         self.up_cb.append(cb)
-        
+
+    def on_feed(self,cb):
+        self.feed_cb.append(cb)
+
+    def on_buzz(self,cb):
+        self.buzz_cb(cb)
+
 
     def forward_step(self):  
         self.set_step(1, 0, 1, 0)
