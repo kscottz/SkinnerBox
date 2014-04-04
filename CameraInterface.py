@@ -32,9 +32,7 @@ class CameraInterface(threading.Thread):
             self._last_image = temp        
         temp = cv2.cvtColor(self._current_image,cv2.cv.CV_BGR2GRAY)
         diff = self._last_image-temp 
-        print diff
         change =  np.mean(np.abs(diff))
-        print change
         self._last_image = (0.2*temp)+(self._last_image*0.8)
         for cb in self._cvlist:
             cb(change)

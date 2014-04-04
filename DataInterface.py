@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+import matplotlib
+matplotlib.use('svg')
 import matplotlib.pyplot as plt
 import numpy as np
 from  datetime import datetime
@@ -48,12 +50,16 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
-    def generateActivity(self,path='./img/activity.png'):
-        mydata = self.activity.find().sort({_id:1}).limit(100)
+    def generateActivity(self,path='./img/activity.svg'):
+        mydata = self.activity.find().limit(100)
         times = []
         values = []
         for d in mydata:
             times.append(d['time_stamp'])
             values.append(d['activity'])
         plt.plot(values)
+        plt.title("Rat activity over time.")
+        plt.xlabel("Time in S.")
+        plt.ylabel("Activity")
+        plt.grid()
         plt.savefig(path)
