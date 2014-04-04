@@ -16,3 +16,5 @@ sudo apt-get install python-matplotlib
 * sudo pip install bottle picamera bottle-websocket
 * if mongo explodes: mongod --dbpath /var/lib/mongodb --repair
   * then sudo rm the lock file
+  * sudo /etc/init.d/mongod start
+ 
