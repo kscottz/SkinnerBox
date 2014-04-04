@@ -6,6 +6,7 @@ import numpy as np
 class ProtocolRunner(threading.Thread):
     def __init__(self,hardware,database):
         super(ProtocolRunner, self).__init__()
+        self.setDaemon(True)
         self.running = False
         self.hardware = hardware
         self.hardware.on_button_down(self.button_callback)

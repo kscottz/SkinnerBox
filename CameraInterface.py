@@ -10,6 +10,7 @@ import time
 class CameraInterface(threading.Thread):
     def __init__(self,img_path):
         super(CameraInterface, self).__init__()
+        self.setDaemon(True)
         self.img_path = img_path
         self.img_sz = (320,240)
         self.running = False

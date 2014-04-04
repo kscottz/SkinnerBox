@@ -7,6 +7,7 @@ import threading
 class HardwareInterface(threading.Thread):
     def __init__(self):
         super(HardwareInterface, self).__init__()
+        self.setDaemon(True)
         self.running = False
         self.coil_A_1_pin = 18# 4
         self.coil_A_2_pin = 23#17
