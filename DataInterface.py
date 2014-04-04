@@ -48,4 +48,12 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
-
+    def generateActivity(self,path='./img/activity.png'):
+        mydata = self.activity.find().sort({_id:1}).limit(100)
+        times = []
+        values = []
+        for d in mydata:
+            times.append(d['time_stamp'])
+            values.append(d['activity'])
+        plt.plot(values)
+        plt.savefig(path)
