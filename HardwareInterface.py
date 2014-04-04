@@ -67,7 +67,7 @@ class HardwareInterface(threading.Thread):
         self.feed_cb.append(cb)
 
     def on_buzz(self,cb):
-        self.buzz_cb(cb)
+        self.buzz_cb.append(cb)
 
 
     def forward_step(self):  

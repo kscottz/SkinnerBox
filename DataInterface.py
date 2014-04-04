@@ -6,7 +6,7 @@ from  datetime import datetime
 class DataInterface():
     def __init__(self,uri='mongodb://localhost:27017',db_name="SkinnerBox"):
         self.client = None
-        self. = None
+        self.db = None
         try:
             self.client = MongoClient(uri)
             print self.client
