@@ -7,9 +7,9 @@ from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
 import time
 import gevent
-import HardwareInterface as hw
-import CameraInterface as ci
-import DataInterface as di
+from modules.HardwareInterface import *
+from modules.CameraInterface import *
+from modules.DataInterface import *
 import picamera
 
 def notify_click():
@@ -21,9 +21,9 @@ def notify_motion(change):
     for u in users:
         u.send("Change: {0}".format(change))
     
-myData = di.DataInterface()
-myhw = hw.HardwareInterface()
-myci = ci.CameraInterface('./img/live.jpg')
+myData = DataInterface()
+myhw = HardwareInterface()
+myci = CameraInterface('./img/live.jpg')
 myhw.on_button_up(notify_click)
 myhw.on_button_up(myData.log_press)
 myhw.on_buzz(myData.log_buzz)
@@ -110,6 +110,6 @@ def chat(ws):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    run(host='192.168.1.42', port=port, server=GeventWebSocketServer)
+    run(host='0.0.0.0', port=port, server=GeventWebSocketServer)
      
 

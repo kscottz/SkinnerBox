@@ -6,6 +6,7 @@ import numpy as np
 from  datetime import datetime
 
 class DataInterface():
+
     def __init__(self,uri='mongodb://localhost:27017',db_name="SkinnerBox"):
         self.client = None
         self.db = None
