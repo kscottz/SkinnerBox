@@ -135,9 +135,11 @@
       $('#messages').append("<li>Your browser doesn't support WebSockets.</li>");
       }
       }
-      ws = new WebSocket('ws://192.168.1.42:5000/websocket');
+      wshost = 'ws://'+document.location.host+'/websocket'
+      ws = new WebSocket(wshost);
+      //ws = new WebSocket('ws://192.168.1.42:5000/websocket');
       ws.onopen = function(evt) {
-      $('#messages').append('<li>Connected to chat.</li>');
+      $('#messages').append('<li>Connected to Skinner Box.</li>');
       }
       ws.onmessage = function(evt) {
       $('#messages').empty();
