@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import sys
 import os
 from bottle import route, run, static_file, template, view, post, get
@@ -23,7 +22,7 @@ def notify_motion(change):
     
 myData = DataInterface()
 myhw = HardwareInterface()
-myci = CameraInterface('./img/live.jpg')
+myci = CameraInterface('./img/live.png')
 myhw.on_button_up(notify_click)
 myhw.on_button_up(myData.log_press)
 myhw.on_buzz(myData.log_buzz)

@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 import matplotlib
-matplotlib.use('svg')
+matplotlib.use('AGG') # gets rid of the backend
 import matplotlib.pyplot as plt
 import numpy as np
 from  datetime import datetime
@@ -51,7 +51,7 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
-    def generateActivity(self,path='./img/activity.svg'):
+    def generateActivity(self,path='./img/activity.png'):
         mydata = self.activity.find().limit(100)
         times = []
         values = []
