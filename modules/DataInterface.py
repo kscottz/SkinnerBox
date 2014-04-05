@@ -1,3 +1,4 @@
+import pymongo
 from pymongo import MongoClient
 import matplotlib
 matplotlib.use('AGG') # gets rid of the backend
@@ -52,15 +53,19 @@ class DataInterface():
         self.events.insert(data)
 
     def generateActivity(self,path='./img/activity.png'):
-        mydata = self.activity.find().limit(100)
+        mydata = self.activity.find().sort('time_stamp', pymongo.DESCENDING).limit(60)
         times = []
         values = []
         for d in mydata:
             times.append(d['time_stamp'])
             values.append(d['activity'])
-        plt.plot(values)
+        values.reverse()
+        plt.plot(values,'b-')
+        plt.grid()
         plt.title("Rat activity over time.")
         plt.xlabel("Time in S.")
         plt.ylabel("Activity")
-        plt.grid()
         plt.savefig(path)
+        plt.close()
+
+    

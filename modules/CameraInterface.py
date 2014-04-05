@@ -8,7 +8,7 @@ import numpy as np
 import time
 
 class CameraInterface(threading.Thread):
-    def __init__(self,img_path):
+    def __init__(self,img_path="/img/live.jpg"):
         super(CameraInterface, self).__init__()
         self.setDaemon(True)
         self.img_path = img_path
