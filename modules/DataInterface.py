@@ -53,18 +53,24 @@ class DataInterface():
         self.events.insert(data)
 
     def generateActivity(self,path='./img/activity.png'):
-        mydata = self.activity.find().sort('time_stamp', pymongo.DESCENDING).limit(60)
+        mydata = self.activity.find().sort('time_stamp', pymongo.DESCENDING).limit(600)
         times = []
         values = []
         for d in mydata:
             times.append(d['time_stamp'])
             values.append(d['activity'])
         values.reverse()
-        plt.plot(values,'b-')
+        values = np.array(values)
+        values = values / np.max(values)
+        times.reverse()
+        fig, ax = plt.subplots()
+        ax.plot_date(times, values)
+        #plt.plot(values,'b-')
+        fig.autofmt_xdate()
         plt.grid()
-        plt.title("Rat activity over time.")
-        plt.xlabel("Time in S.")
-        plt.ylabel("Activity")
+        plt.title("Relative Rat Activity Over Time.")
+        plt.xlabel("Time")
+        plt.ylabel("Normalized Activity")
         plt.savefig(path)
         plt.close()
 
