@@ -21,6 +21,8 @@ class DataInterface():
         except:
             print "Golly, we can't connect to Mongo."
             
+    def isActive(self,threshold=20.0):
+        return True
 
     def log_activity(self,activity):
         data = {}
@@ -49,6 +51,18 @@ class DataInterface():
     def log_food(self):
         data = {}
         data['event'] = "food"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
+    def log_success(self):
+        data = {}
+        data['event'] = "success"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
+   def log_fail(self):
+        data = {}
+        data['event'] = "fail"
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
