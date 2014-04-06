@@ -52,6 +52,32 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
+    def eventToNP(self,event,count):
+        data = self.events.find({'event':event}).sort('time_stamp', pymongo.DESCENDING).limit(count)
+        times = []
+        for d in data:
+            times.append(d['time_stamp'])
+        times.reverse()
+        return times
+
+    def generateEvents(self,path='./img/events.png',count=10):
+        food_time = self.eventToNP('food',count)
+        buzz_time = self.eventToNP('buzz',count)
+        press_time = self.eventToNP('press',count)
+        fig, ax = plt.subplots()
+        ax.plot_date(food, food_time)
+        ax.plot_date(buzz, buzz_time)
+        ax.plot_date(press, press_time)
+        #plt.plot(values,'b-')
+        fig.autofmt_xdate()
+        plt.grid()
+        plt.title("Rat Events")
+        plt.xlabel("Time")
+        plt.ylabel("Event")
+        plt.savefig(path)
+        plt.close()
+
+
     def generateActivity(self,path='./img/activity.png'):
         mydata = self.activity.find().sort('time_stamp', pymongo.DESCENDING).limit(600)
         times = []
