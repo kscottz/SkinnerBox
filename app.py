@@ -9,6 +9,7 @@ import gevent
 from modules.HardwareInterface import *
 from modules.CameraInterface import *
 from modules.DataInterface import *
+from modules.ProtocolRunner import *
 import picamera
 
 def notify_click():
@@ -23,15 +24,18 @@ def notify_motion(change):
 myData = DataInterface()
 myhw = HardwareInterface()
 myci = CameraInterface('./img/live.png')
+mypr = ProtocolRunner(myhw,myData)
+
 myhw.on_button_up(notify_click)
 myhw.on_button_up(myData.log_press)
 myhw.on_buzz(myData.log_buzz)
 myhw.on_feed(myData.log_food)
 myci.set_motion_callback(notify_motion)
 myci.set_motion_callback(myData.log_activity)
-
+myhw.on_button_up(mypr.button_callback)
 myci.start()
 myhw.start()
+mypr.start()
 
 @route('/js/<filename>')
 def js_static(filename):

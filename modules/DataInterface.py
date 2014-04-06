@@ -60,7 +60,7 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
-   def log_fail(self):
+    def log_fail(self):
         data = {}
         data['event'] = "fail"
         data['time_stamp'] = datetime.now()
