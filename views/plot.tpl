@@ -41,22 +41,14 @@
     </div>
 
     <div class="container">
-<div class="btn-group">
-    <button type="button" class="btn btn-primary" id="BUZZ">buzz</button>
-    <button type="button" class="btn btn-warning" id="FEED">feed</button>
-    <button type="button" class="btn btn-danger" id="PICS">pics</button>
-    <button type="button" class="btn btn-inverse" id="MERP">Merp</button>
-    </div>
+    <button type="button" class="btn btn-primary" id="HOME">Back</button>
+    <button type="button" class="btn btn-warning" id="activity">Refresh</button>
     <div class="container">
-<div class="btn-group">
-
-  <button type="button" class="btn btn-primary" id="activity">activity</button>
-  <button type="button" class="btn btn-warning" id="presses">food requests</button>
-    </div>
-    <div class="container">
-
- <div id="messages"></div>
 </div>
+    <div class="container">
+      <img src="{{image}}">
+    </div>
+
       {{ content }}
 
     </div> <!-- /container -->
@@ -78,71 +70,18 @@
     <script src="/js/bootstrap-collapse.js"></script>
     <script src="/js/bootstrap-carousel.js"></script>
     <script type="text/javascript">
-      $('#BUZZ').on('click', function (e) {
-      $.ajax({
-      type: "POST",
-      url: "/buzz",
-      });
-      });
-
-      $('#FEED').on('click', function (e) {
-      $.ajax({
-      type: "POST",
-      url: "/feed",
-      });
-      });
-
-      $('#PICS').on('click', function (e) 
-      {
-      window.location.href = '/pics';
-      return false;
-      });
-
       $('#activity').on('click', function (e) 
       {
-      window.location.href = '/activity';
+      window.location.href = '{{route}}';
       return false;
       });
-      
-      $('#presses').on('click', function (e) 
+
+      $('#HOME').on('click', function (e) 
       {
-      window.location.href = '/presses';
+      window.location.href = '/';
       return false;
       });
-      
-      $('#MERP').on('click', function (e) {
-      alert( "FUCK IT!!!" );
-      $.ajax({
-      type: "POST",
-      url: "/merp",
-      });
-      });
 
-
-      $(document).ready(function() {
-      if (!window.WebSocket) {
-      if (window.MozWebSocket) {
-      window.WebSocket = window.MozWebSocket;
-      } else {
-      $('#messages').append("<li>Your browser doesn't support WebSockets.</li>");
-      }
-      }
-      wshost = 'ws://'+document.location.host+'/websocket'
-      ws = new WebSocket(wshost);
-      //ws = new WebSocket('ws://192.168.1.42:5000/websocket');
-      ws.onopen = function(evt) {
-      $('#messages').append('<li>Connected to Skinner Box.</li>');
-      }
-      ws.onmessage = function(evt) {
-      $('#messages').empty();
-      $('#messages').append('<li>' + evt.data + '</li>');
-      }
-      $('#send-message').submit(function() {
-      ws.send($('#name').val() + ": " + $('#message').val());
-      $('#message').val('').focus();
-      return false;
-      });
-      });
     </script>
 
 
