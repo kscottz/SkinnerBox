@@ -4,10 +4,10 @@ import time
 GPIO.setmode(GPIO.BCM)
  
 enable_pin = 27 #18
-coil_A_1_pin = 18# 4
-coil_A_2_pin = 23#17
-coil_B_1_pin = 24 #23
-coil_B_2_pin = 25 #24
+coil_A_2_pin = 18 #23 #17
+coil_A_1_pin = 23 #18  #4
+coil_B_1_pin = 25 #23
+coil_B_2_pin = 24 #24
  
 GPIO.setup(enable_pin, GPIO.OUT)
 GPIO.setup(coil_A_1_pin, GPIO.OUT)
@@ -19,6 +19,23 @@ GPIO.output(enable_pin, 1)
  
 def forward(delay, steps):  
   for i in range(0, steps):
+    # setStep(1,0,1,0)
+    # time.sleep(delay)
+    # setStep(1, 0, 1, 1)
+    # time.sleep(delay)
+    # setStep(1, 0, 0, 1)
+    # time.sleep(delay)
+    # setStep(1, 1, 0, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 0, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 1, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 1, 0)
+    # time.sleep(delay)
+    # setStep(1, 1, 1, 0)
+    # time.sleep(delay)
+
     setStep(1, 0, 1, 0)
     time.sleep(delay)
     setStep(0, 1, 1, 0)
@@ -48,8 +65,6 @@ def setStep(w1, w2, w3, w4):
  
 while True:
   #setStep(1,1,1,1)
-
-
   delay = raw_input("Delay between steps (milliseconds)?")
   steps = raw_input("How many steps forward? ")
   forward(int(delay) / 1000.0, int(steps))

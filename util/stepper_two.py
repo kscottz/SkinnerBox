@@ -3,38 +3,57 @@ import time
  
 GPIO.setmode(GPIO.BCM)
  
-enable_pin = 18
-coil_A_1_pin = 4
-coil_A_2_pin = 17
-coil_B_1_pin = 23
-coil_B_2_pin = 24
+#enable_pin = 18
+coil_A_1_pin = 18# 18 #23 #17
+coil_A_2_pin = 23 #23 #28 #4
+coil_B_1_pin = 24 #23
+coil_B_2_pin = 25 #24
+
+# coil_A_1_pin = 4
+# coil_A_2_pin = 17
+# coil_B_1_pin = 23
+# coil_B_2_pin = 24
  
-GPIO.setup(enable_pin, GPIO.OUT)
+#GPIO.setup(enable_pin, GPIO.OUT)
 GPIO.setup(coil_A_1_pin, GPIO.OUT)
 GPIO.setup(coil_A_2_pin, GPIO.OUT)
 GPIO.setup(coil_B_1_pin, GPIO.OUT)
 GPIO.setup(coil_B_2_pin, GPIO.OUT)
+
+GPIO.output(coil_A_1_pin, 1)
+GPIO.output(coil_A_2_pin, 0)
+GPIO.output(coil_B_1_pin, 1)
+GPIO.output(coil_B_2_pin, 0)
  
-GPIO.output(enable_pin, 1)
+#GPIO.output(enable_pin, 1)
  
 def forward(delay, steps):  
   for i in range(0, steps):
-    setStep(1,0,1,0)
-    time.sleep(delay)
-    setStep(1, 0, 1, 1)
-    time.sleep(delay)
-    setStep(1, 0, 0, 1)
-    time.sleep(delay)
-    setStep(1, 1, 0, 1)
-    time.sleep(delay)
-    setStep(0, 1, 0, 1)
-    time.sleep(delay)
-    setStep(0, 1, 1, 1)
+    setStep(1, 0, 1, 0)
     time.sleep(delay)
     setStep(0, 1, 1, 0)
     time.sleep(delay)
-    setStep(1, 1, 1, 0)
+    setStep(0, 1, 0, 1)
     time.sleep(delay)
+    setStep(1, 0, 0, 1)
+    time.sleep(delay)
+
+    # setStep(1,0,1,0)
+    # time.sleep(delay)
+    # setStep(1, 0, 1, 1)
+    # time.sleep(delay)
+    # setStep(1, 0, 0, 1)
+    # time.sleep(delay)
+    # setStep(1, 1, 0, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 0, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 1, 1)
+    # time.sleep(delay)
+    # setStep(0, 1, 1, 0)
+    # time.sleep(delay)
+    # setStep(1, 1, 1, 0)
+    # time.sleep(delay)
  
 def backwards(delay, steps):  
   for i in range(0, steps):

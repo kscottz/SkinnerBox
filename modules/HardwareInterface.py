@@ -26,7 +26,7 @@ class HardwareInterface(threading.Thread):
         GPIO.setup(self.trigger, GPIO.IN)
 
         self.step = 0
-        self.max_steps = 4
+        self.max_steps = 5
         self.dispensing = False
 
         self.last_button_state = False
@@ -38,7 +38,7 @@ class HardwareInterface(threading.Thread):
         self.buzz = False
         self.buzz_count = 0
         self.buzz_max = 100
-        self.delay=0.01
+        self.delay=0.015
 
     def dispense(self):
         if not self.dispensing:
