@@ -31,12 +31,10 @@ class ProtocolRunner(threading.Thread):
         self.isEnabled = False
 
     def button_callback(self):
-        print "BUTTON"
         if( self.experiment_running ):
             diff = dt.datetime.now() - self.last_experiment
             # did we press the button in time?
             if( diff <= self.response_window_s):                
-                print "EXPERIMENT DONE --PASS"
                 self.hardware.dispense()
                 self.data_interface.log_success()
                 self.experiment_running = False
@@ -48,15 +46,12 @@ class ProtocolRunner(threading.Thread):
             if( self.isEnabled ):
                 diff = dt.datetime.now() - self.last_experiment
                 if( self.experiment_running ):
-                    print "EXPERIMENT RUNNING"
                     if( diff > self.response_window_s ):
-                        print "EXPERIMENT DONE --FAIL"
                         self.experiment_running = False
                         self.data_interface.log_fail() 
                         self.last_experiment = dt.datetime.now()
                 # time to do another experiment?
                 elif(diff > self.period_seconds):
-                    print "EXPERIMENT STARTED"
                     self.last_experiment = dt.datetime.now()
                     self.hardware.buzz_once()
                     self.experiment_running = True
