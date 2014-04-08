@@ -60,8 +60,10 @@
 
 
 
+	<h2>Live Event Feed</h2>
 	<div class="container">
           <!-- Table -->
+          <div class="table-responsive"> 
           <table class="table table-striped table-bordered table-hover" id="messages" width=500>  
 	    <thead>
 	      <tr>
@@ -72,6 +74,7 @@
             <tbody>  
 	    </tbody>
 	</table>
+	</div>
 	</div>
      
       {{ content }}
@@ -140,7 +143,7 @@
       ws = new WebSocket(wshost);
       //ws = new WebSocket('ws://192.168.1.42:5000/websocket');
       ws.onopen = function(evt) {
-      $('#messages').append("<tr><td>Connected to Skinner Box.</td></tr>");
+      $('#messages').append('<tr class="warning"><td>Connected to Skinner Box.</td><td></td><td></td></tr>');
       }
       ws.onmessage = function(evt) {
       //$('#messages').empty();
