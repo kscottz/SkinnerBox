@@ -64,7 +64,7 @@
 	<div class="container">
           <!-- Table -->
           <div class="table-responsive"> 
-          <table class="table table-striped table-bordered table-hover" id="messages" width=500>  
+          <table class="table table-bordered table-hover" id="messages" width=500>  
 	    <thead>
 	      <tr>
 		<th>Time</th>
@@ -147,8 +147,18 @@
       }
       ws.onmessage = function(evt) {
       //$('#messages').empty();
-      result = $.parseJSON( evt.data );
-      $('#messages').prepend('<tr class="'+result.color+'"><td>' + result.time+ '</td><td>' +result.data+ '</td><td>'+ result.value + '</td></tr>');
+        result = $.parseJSON( evt.data );
+        if( result.color === 'warning' ){
+          var color = 'bgcolor="FFADAD"';
+          $('#messages').prepend('<tr '+color+'><td>' + result.time+ '</td><td>' +result.data+ '</td><td>'+ result.value + '</td></tr>');
+        }
+        else if( result.color === 'success' ){
+          var color = 'bgcolor="ADFFC3"';
+          $('#messages').prepend('<tr '+color+'><td>' + result.time+ '</td><td>' +result.data+ '</td><td>'+ result.value + '</td></tr>');
+        } 
+        else{
+          $('#messages').prepend('<tr class="'+result.color+'"><td>' + result.time+ '</td><td>' +result.data+ '</td><td>'+ result.value + '</td></tr>');
+        }
       }
       $('#send-message').submit(function() {
       ws.send($('#name').val() + ": " + $('#message').val());

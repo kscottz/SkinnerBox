@@ -34,24 +34,52 @@ def notify_click():
 
 def notify_motion(change):
     send_msg("Activity",change,None)
+
+def notify_start():
+    send_msg("Experiment","starting",None)
+
+def notify_pass():
+    send_msg("Experiment Result","PASS","success")
+
+def notify_fail():
+    send_msg("Experiment Result","FAIL","warning")
+
     
 myData = DataInterface()
 myhw = HardwareInterface()
 myci = CameraInterface('./img/live.png')
 mypr = ProtocolRunner(myhw,myData)
 
+# experiment notifications
+mypr.add_on_pass_cb(myData.log_success)
+mypr.add_on_pass_cb(notify_pass)
+mypr.add_on_fail_cb(myData.log_fail)
+mypr.add_on_fail_cb(notify_fail)
+mypr.add_on_start_cb(myData.log_start)
+mypr.add_on_start_cb(notify_start)
+mypr.add_on_end_cb(myData.log_stop)
+
+# button notifications
 myhw.on_button_up(notify_click)
 myhw.on_button_up(myData.log_press)
 
+# buzz notifications
 myhw.on_buzz(myData.log_buzz)
 myhw.on_buzz(notify_buzz)
 
+# feed notifications
 myhw.on_feed(myData.log_food)
 myhw.on_feed(notify_feed)
 
+# motion notifications
 myci.set_motion_callback(notify_motion)
 myci.set_motion_callback(myData.log_activity)
+
+# button notifications
 myhw.on_button_up(mypr.button_callback)
+
+
+# OKAY GO!
 myci.start()
 myhw.start()
 mypr.start()

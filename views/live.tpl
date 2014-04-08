@@ -46,7 +46,12 @@
     <div class="container">
 </div>
     <div class="container">
-      <img src="/img/live.png">
+      <div class="row">
+
+	<div class="span6 offset1">
+	  <img src="/img/live.png" class="img-rounded">
+	</div>
+      </div>
     </div>
 
       {{ content }}

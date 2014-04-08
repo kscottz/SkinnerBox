@@ -66,6 +66,18 @@ class DataInterface():
         data['time_stamp'] = datetime.now()
         self.events.insert(data)
 
+    def log_start(self):
+        data = {}
+        data['event'] = "exp_start"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
+    def log_stop(self):
+        data = {}
+        data['event'] = "exp_stop"
+        data['time_stamp'] = datetime.now()
+        self.events.insert(data)
+
     def eventToNP(self,event,count):
         data = self.events.find({'event':event}).sort('time_stamp', pymongo.DESCENDING).limit(count)
         times = []
