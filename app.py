@@ -97,12 +97,6 @@ def img_static(filename):
     return static_file(filename, root='./css')
 
 
-@post("/merp")
-def merp():
-    myhw.power_down()
-    myhw.join()
-    myci.shutdown()
-    myhw.join()
 
 @post("/buzz")
 def buzz():
@@ -120,10 +114,7 @@ def dispense():
 @route("/pics")
 @view("live")
 def live():
-    return dict(title = "Hello", button="derp2", content = '''
-    Hello from Python!
-
-    ''')
+    return dict(title = "Live Pictures", button="derp2", content = "")
 
 @route("/activity")
 @view("activity")
@@ -134,16 +125,41 @@ def activity():
 
     ''')
 
-@route("/presses")
+@route("/passfail")
 @view("plot")
 def live():
-    myData.generateActivity('./img/activity.png')
-    return dict(title = "Food Request Monitor",
-                image = '/img/activity.png',
-                route = '/presses',
-                content = '''
+    myData.generatePassFail()
+    return dict(title = "Test Pass / Fail Results",
+                image = '/img/pass_fail.png',
+                route = '/passfail',
+                content = "")
 
-    '''
+
+def make_table(data,title):
+    retVal = ''
+    retVal += '<div class="table-responsive"> '
+    retVal += '<table class="table table-bordered table-hover table-striped" id="messages">'  
+    retVal += '<thead><tr><td><b>{0}'.format(title)
+    retVal += '</b></td></tr></thead>'
+    retVal += '<tbody>'
+    for k,v in data.items():
+        retVal += '<tr>' 
+        retVal += '<td>{0}</td>'.format(k) 
+        retVal += '<td>{0}</td>'.format(v) 
+        retVal += '</tr>' 
+    retVal += '</tbody>'
+    retVal += '</table>'
+    retVal += '</div>'
+    return retVal
+
+@route("/stats")
+@view("stats")
+def live():
+    stats=myData.generateStats()
+    return dict(title = "Today's Stats",
+                experiments = make_table(stats['experiments'],"Experiment Results"),
+                events = make_table(stats['events'],"Today's Events"),
+                activity = make_table(stats['activity'],"Today's Activity")
                 )
 
 

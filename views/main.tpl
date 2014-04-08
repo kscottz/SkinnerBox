@@ -32,8 +32,9 @@
             <ul class="nav">
               <li class="active"><a href="#">Give Food</a></li>
               <li><a href="/activity">Activity</a></li>
-              <li><a href="/experiments">Experiments</a></li>
+              <li><a href="/passfail">Experiments</a></li>
               <li><a href="/live">Camera</a></li>
+              <li><a href="/stats">Today</a></li>
               <li><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -50,7 +51,7 @@
       <div class="container">
 	<div class="btn-group">
 	  <button type="button" class="btn btn-primary" id="activity">activity</button>
-	  <button type="button" class="btn btn-warning" id="presses">food requests</button>
+	  <button type="button" class="btn btn-warning" id="passfail">food requests</button>
 	</div>
 	<div class="btn-group">
 	  <span class="input-group-addon">
@@ -124,9 +125,9 @@
       return false;
       });
       
-      $('#presses').on('click', function (e) 
+      $('#passfail').on('click', function (e) 
       {
-      window.location.href = '/presses';
+      window.location.href = '/passfail';
       return false;
       });
       

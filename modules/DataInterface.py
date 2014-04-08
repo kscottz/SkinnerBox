@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('AGG') # gets rid of the backend
 import matplotlib.pyplot as plt
 import numpy as np
-from  datetime import datetime
+from  datetime import datetime, timedelta
 
 class DataInterface():
 
@@ -105,7 +105,8 @@ class DataInterface():
 
 
     def generateActivity(self,path='./img/activity.png'):
-        mydata = self.activity.find().sort('time_stamp', pymongo.DESCENDING).limit(600)
+        yesterday = datetime.now() - timedelta(hours=24)
+        mydata = self.activity.find({"time_stamp": {"$gt": yesterday}}).sort('time_stamp', pymongo.DESCENDING)
         times = []
         values = []
         for d in mydata:
@@ -126,4 +127,55 @@ class DataInterface():
         plt.savefig(path)
         plt.close()
 
-    
+    def generatePassFail(self,path='./img/pass_fail.png'):
+        yesterday = datetime.now() - timedelta(hours=24)
+        passes = self.events.find({"time_stamp": {"$gt": yesterday},"event":"success"}).count()
+        fails  = self.events.find({"time_stamp": {"$gt": yesterday},"event":"fail"}).count()
+        width = 1.0
+        fig, ax = plt.subplots()
+        print passes,fails
+        rects1 = ax.bar([1],[passes], width=1, color='g')
+        rects2 = ax.bar([3],[fails], width=1, color='r')
+        # add some
+        ax.set_ylabel('Scores Today')
+        ax.set_title('Test Performance')
+        ax.set_xticks([1.5,3.5])
+        ax.set_xticklabels( ('pass', 'fail') )
+        plt.xlim([0,5])
+        ax.legend( ('PASS', 'FAIL') )
+        plt.grid()
+        plt.savefig(path)
+        plt.close()
+
+    def generateStats(self):
+        yesterday = datetime.now() - timedelta(hours=24)
+        passes = self.events.find({"time_stamp": {"$gt": yesterday},"event":"success"}).count()
+        fails  = self.events.find({"time_stamp": {"$gt": yesterday},"event":"fail"}).count()
+        food  = self.events.find({"time_stamp": {"$gt": yesterday},"event":"food"}).count()
+        buzz  = self.events.find({"time_stamp": {"$gt": yesterday},"event":"buzz"}).count()
+        press  = self.events.find({"time_stamp": {"$gt": yesterday},"event":"press"}).count()
+        activity_data = self.activity.find({"time_stamp": {"$gt": yesterday}}).sort('time_stamp', pymongo.DESCENDING)
+        retVal = {}
+        experiments={}
+        experiments['passes'] = passes
+        experiments['fails'] = fails
+        total = passes+fails
+        experiments['total'] = total
+        experiments['correct'] = round(passes/float(total),2)
+        experiments['incorrect'] = round(fails/float(total),2)
+        events={}
+        events['food'] = food
+        events['buzz'] = buzz
+        events['press'] = press
+        activity={}
+        values = []
+        for d in activity_data:
+            values.append(d['activity'])
+        activ= np.array(values)
+        activity['mean activity'] = np.mean(activ)
+        activity['max activity'] = np.max(activ)
+        activity['min activity'] = np.min(activ)
+        retVal['activity'] = activity
+        retVal['experiments'] = experiments
+        retVal['events'] = events
+        return retVal

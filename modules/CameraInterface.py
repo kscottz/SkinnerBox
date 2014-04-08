@@ -12,7 +12,7 @@ class CameraInterface(threading.Thread):
         super(CameraInterface, self).__init__()
         self.setDaemon(True)
         self.img_path = img_path
-        self.img_sz = (320,240)
+        self.img_sz = (640,480)
         self.running = False
         self.delay=0.01
         self._current_image = None
