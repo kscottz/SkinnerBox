@@ -43,9 +43,9 @@
 
     <div class="container">
       <div class="btn-group">
-	<button type="button" class="btn btn-primary" id="BUZZ">buzz</button>
-	<button type="button" class="btn btn-warning" id="FEED">feed</button>
-	<button type="button" class="btn btn-danger" id="PICS">pics</button>
+	<button type="button" class="btn btn-primary-large"  id="BUZZ"><i class="icon-music"></i>buzz</button>
+	<button type="button" class="btn btn-warning-large" id="FEED"><i class="icon-thumbs-up"></i>feed</button>
+	<button type="button" class="btn btn-danger-large" id="PICS"><i class="icon-eye-open"></i>pics</button>
       </div>
       <div class="container">
 	<div class="btn-group">
