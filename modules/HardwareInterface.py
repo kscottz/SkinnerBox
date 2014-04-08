@@ -101,9 +101,9 @@ class HardwareInterface(threading.Thread):
     def turn_off_buzzer(self):
         GPIO.output(self.bzzz,0)
 
-    def power_down(self):
+    def shutdown(self):
         self.running = False
-        time.sleep(0.01)
+        time.sleep(0.1)
         GPIO.output(self.coil_A_1_pin,0)
         GPIO.output(self.coil_A_2_pin,0)
         GPIO.output(self.coil_B_1_pin,0)

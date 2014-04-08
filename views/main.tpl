@@ -5,7 +5,7 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Katherine A. Scott -- kscottz">
     
     <!-- styles -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -31,9 +31,10 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Give Food</a></li>
-              <li><a href="#about">Activity</a></li>
-              <li><a href="#contact">Buzz</a></li>
-              <li><a href="#config">Buzz</a></li>
+              <li><a href="/activity">Activity</a></li>
+              <li><a href="/experiments">Experiments</a></li>
+              <li><a href="/live">Camera</a></li>
+              <li><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -41,22 +42,38 @@
     </div>
 
     <div class="container">
-<div class="btn-group">
-    <button type="button" class="btn btn-primary" id="BUZZ">buzz</button>
-    <button type="button" class="btn btn-warning" id="FEED">feed</button>
-    <button type="button" class="btn btn-danger" id="PICS">pics</button>
-    <button type="button" class="btn btn-inverse" id="MERP">Merp</button>
-    </div>
-    <div class="container">
-<div class="btn-group">
+      <div class="btn-group">
+	<button type="button" class="btn btn-primary" id="BUZZ">buzz</button>
+	<button type="button" class="btn btn-warning" id="FEED">feed</button>
+	<button type="button" class="btn btn-danger" id="PICS">pics</button>
+      </div>
+      <div class="container">
+	<div class="btn-group">
+	  <button type="button" class="btn btn-primary" id="activity">activity</button>
+	  <button type="button" class="btn btn-warning" id="presses">food requests</button>
+	</div>
+	<div class="btn-group">
+	  <span class="input-group-addon">
+            <input type="checkbox" id="experiment"> Experiments Enbabled
+	  </span>
+	</div>
 
-  <button type="button" class="btn btn-primary" id="activity">activity</button>
-  <button type="button" class="btn btn-warning" id="presses">food requests</button>
-    </div>
-    <div class="container">
 
- <div id="messages"></div>
-</div>
+
+	<div class="container">
+          <!-- Table -->
+          <table class="table table-striped table-bordered table-hover" id="messages" width=500>  
+	    <thead>
+	      <tr>
+		<th>Time</th>
+		<th>Event</th>
+		<th>Value</th>
+	    </thead>
+            <tbody>  
+	    </tbody>
+	</table>
+	</div>
+     
       {{ content }}
 
     </div> <!-- /container -->
@@ -110,14 +127,6 @@
       return false;
       });
       
-      $('#MERP').on('click', function (e) {
-      alert( "FUCK IT!!!" );
-      $.ajax({
-      type: "POST",
-      url: "/merp",
-      });
-      });
-
 
       $(document).ready(function() {
       if (!window.WebSocket) {
@@ -131,11 +140,12 @@
       ws = new WebSocket(wshost);
       //ws = new WebSocket('ws://192.168.1.42:5000/websocket');
       ws.onopen = function(evt) {
-      $('#messages').append('<li>Connected to Skinner Box.</li>');
+      $('#messages').append("<tr><td>Connected to Skinner Box.</td></tr>");
       }
       ws.onmessage = function(evt) {
-      $('#messages').empty();
-      $('#messages').append('<li>' + evt.data + '</li>');
+      //$('#messages').empty();
+      result = $.parseJSON( evt.data );
+      $('#messages').prepend('<tr class="'+result.color+'"><td>' + result.time+ '</td><td>' +result.data+ '</td><td>'+ result.value + '</td></tr>');
       }
       $('#send-message').submit(function() {
       ws.send($('#name').val() + ": " + $('#message').val());
