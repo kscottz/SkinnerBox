@@ -27,13 +27,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Rat Status Page</a>
+          <a class="brand" href="/">Rat Status Page</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Give Food</a></li>
-              <li><a href="#about">Activity</a></li>
-              <li><a href="#contact">Buzz</a></li>
-              <li><a href="#config">Buzz</a></li>
+              <li><a href="/">Live Feed</a></li>
+              <li  class="active"><a href="/activity">Activity</a></li>
+              <li><a href="/passfail">Experiments</a></li>
+              <li><a href="/controls">Controls</a></li>
+              <li><a href="/pics">Camera</a></li>
+              <li><a href="/stats">Today</a></li>
+              <li><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

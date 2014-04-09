@@ -32,27 +32,36 @@
             <ul class="nav">
               <li><a href="/">Live Feed</a></li>
               <li><a href="/activity">Activity</a></li>
-              <li class="active"><a href="/passfail">Experiments</a></li>
+              <li><a href="/passfail">Experiments</a></li>
               <li><a href="/controls">Controls</a></li>
               <li><a href="/pics">Camera</a></li>
               <li><a href="/stats">Today</a></li>
-              <li><a href="/about">About</a></li>
+              <li class="active"><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-    <div class="container">
-    <button type="button" class="btn btn-primary" id="HOME">Back</button>
-    <button type="button" class="btn btn-warning" id="activity">Refresh</button>
-    <div class="container">
 </div>
     <div class="container">
-      <img src="{{image}}">
+      <div class="row">
+	<div class="span2 offset1">
+	  <img src="/img/kat.jpg" class="img-circle">
+	</div>
+	<div class="span7 offset3">
+	  <b>Hand crafted with love by <a href="http://www.kscottz.com">Katherine Scott</a> aka <a href="https://twitter.com/kscottz">@kscottz</a>.</b>
+	  <ul>
+	    <li><a href="https://github.com/kscottz/SkinnerBox">Source Code</a></li>
+	    <li><a href="http://www.thingiverse.com/kscottz/collections">CAD Files</a></li>
+	    <li><a href="http://www.kscottz.com">Build Directions</a></li>
+	    <li><a href="https://github.com/kscottz/SkinnerBox">Get the source here.</a></li>
+	  </ul>
+	    
+	</div>
+
+
+      </div>
     </div>
-
-      {{ content }}
-
     </div> <!-- /container -->
 
     <!-- javascript
@@ -71,24 +80,7 @@
     <script src="/js/bootstrap-button.js"></script>
     <script src="/js/bootstrap-collapse.js"></script>
     <script src="/js/bootstrap-carousel.js"></script>
-    <script type="text/javascript">
-      $('#activity').on('click', function (e) 
-      {
-      window.location.href = '{{route}}';
-      return false;
-      });
-
-      $('#HOME').on('click', function (e) 
-      {
-      window.location.href = '/';
-      return false;
-      });
-
-    </script>
-
-
-    </script>
     <script src="/js/bootstrap-typeahead.js"></script>
-
+    </script>
   </body>
 </html>

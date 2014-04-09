@@ -27,28 +27,31 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Rat Status Page</a>
+          <a class="brand" href="/">Rat Status Page</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Give Food</a></li>
-              <li><a href="#about">Activity</a></li>
-              <li><a href="#contact">Buzz</a></li>
-              <li><a href="#config">Buzz</a></li>
+              <li><a href="/">Live Feed</a></li>
+              <li><a href="/activity">Activity</a></li>
+              <li><a href="/passfail">Experiments</a></li>
+              <li><a href="/controls">Controls</a></li>
+              <li class="active"><a href="/pics">Camera</a></li>
+              <li><a href="/stats">Today</a></li>
+              <li><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
     <div class="container">
     <button type="button" class="btn btn-primary" id="HOME">Back</button>
     <button type="button" class="btn btn-warning" id="PICS">Again!</button>
+    <br><br>
     <div class="container">
 </div>
     <div class="container">
       <div class="row">
 
-	<div class="span6 offset1">
+	<div class="span6 offset2">
 	  <img src="/img/live.png" class="img-rounded">
 	</div>
       </div>

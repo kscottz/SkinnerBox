@@ -18,7 +18,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -27,21 +26,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Rat Status Page</a>
+          <a class="brand" href="/">Rat Status Page</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Give Food</a></li>
+              <li><a href="/">Live Feed</a></li>
               <li><a href="/activity">Activity</a></li>
               <li><a href="/passfail">Experiments</a></li>
-              <li><a href="/live">Camera</a></li>
+              <li><a href="/controls">Controls</a></li>
+              <li><a href="/pics">Camera</a></li>
+              <li class="active"><a href="/stats">Today</a></li>
               <li><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
-
 	<div class="container">
 
 	<h2>Today's Stats</h2>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys, os, signal, time
-from bottle import route, run, static_file, template, view, post, get
+from bottle import route, run, static_file, template, view, post, get, error, SimpleTemplate
 from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
 import datetime as dt
@@ -44,7 +44,7 @@ def notify_pass():
 def notify_fail():
     send_msg("Experiment Result","FAIL","warning")
 
-    
+# create our objects    
 myData = DataInterface()
 myhw = HardwareInterface()
 myci = CameraInterface('./img/live.png')
@@ -84,6 +84,8 @@ myci.start()
 myhw.start()
 mypr.start()
 
+
+# these route requests to our static bootstrap files
 @route('/js/<filename>')
 def js_static(filename):
     return static_file(filename, root='./js')
@@ -96,7 +98,13 @@ def img_static(filename):
 def img_static(filename):
     return static_file(filename, root='./css')
 
-
+@error(404)
+def error404(error):
+    with open('./views/fourohfour.tpl','r') as fp:
+        data = fp.read()
+        template = SimpleTemplate(data)
+        return template.render(error=error,title="ruh roh!")
+    
 
 @post("/buzz")
 def buzz():
@@ -120,10 +128,7 @@ def live():
 @view("activity")
 def activity():
     myData.generateActivity('./img/activity.png')
-    return dict(title = "Activity Monitor", button="derp2", content = '''
-    Check out what the wee beasties are doing!
-
-    ''')
+    return dict(title = "Activity Monitor", button="", content = "")
 
 @route("/passfail")
 @view("plot")
@@ -162,15 +167,21 @@ def live():
                 activity = make_table(stats['activity'],"Today's Activity")
                 )
 
+@route("/about")
+@view("about")
+def about():
+    return dict(title = "About")
+
+@route("/controls")
+@view("controls")
+def controls():
+    return dict(title = "Controls")
 
 
 @route("/")
 @view("main")
-def hello():
-    return dict(title = "Hello", button="derp2", content = '''
-    Hello from Python!
-
-    ''')
+def main():
+    return dict(title = "Live Feed", button="", content = "")
 
 users = set()
 @get('/websocket', apply=[websocket])

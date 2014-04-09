@@ -19,41 +19,17 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Rat Status Page</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li><a href="/">Live Feed</a></li>
-              <li><a href="/activity">Activity</a></li>
-              <li class="active"><a href="/passfail">Experiments</a></li>
-              <li><a href="/controls">Controls</a></li>
-              <li><a href="/pics">Camera</a></li>
-              <li><a href="/stats">Today</a></li>
-              <li><a href="/about">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-    <div class="container">
-    <button type="button" class="btn btn-primary" id="HOME">Back</button>
-    <button type="button" class="btn btn-warning" id="activity">Refresh</button>
-    <div class="container">
-</div>
-    <div class="container">
-      <img src="{{image}}">
+    <div class="row-fluid">
+      
+      <div class="span12 pagination-centered"><img src="/img/fourohfour.gif" alt="header" class="img-polaroid"/></div>
+      <h1><p class="text-center">Ooops, our tubes are clogged!</p></h1>
+      <h3><p class="text-center">{{error}}</p></h3>
+      <h3><p class="text-center"><a class="brand" href="/">Take me home!</a></p></h3>
     </div>
 
-      {{ content }}
 
-    </div> <!-- /container -->
+      
+
 
     <!-- javascript
     ================================================== -->
@@ -72,9 +48,9 @@
     <script src="/js/bootstrap-collapse.js"></script>
     <script src="/js/bootstrap-carousel.js"></script>
     <script type="text/javascript">
-      $('#activity').on('click', function (e) 
+      $('#PICS').on('click', function (e) 
       {
-      window.location.href = '{{route}}';
+      window.location.href = '/pics';
       return false;
       });
 
