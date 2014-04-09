@@ -5,19 +5,19 @@ import threading
 import numpy as np
         
 class ProtocolRunner(threading.Thread):
-    def __init__(self,hardware,data,period_seconds=60,response_window_s=10):
+    def __init__(self,hardware,period_s=60,response_window_s=10):
         super(ProtocolRunner, self).__init__()
         self.setDaemon(True)
         self.running = False
         self.hardware = hardware
         # this might need to go outside the class
-        self.hardware.on_button_down(self.button_callback)
-        self.data_interface = data
+        #self.hardware.on_button_down(self.button_callback)
+        #self.data_interface = data
         self.isEnabled = True
-        self.activity = 0
-        self.state = "not_started" # not_started / waiting_for_press
+        #self.activity = 0
+        #self.state = "not_started" # not_started / waiting_for_press
         self.experiment_running = False
-        self.period_seconds = dt.timedelta(seconds=period_seconds)
+        self.period_seconds = dt.timedelta(seconds=period_s)
         self.last_experiment = dt.datetime.now()
         self.response_window_s = dt.timedelta(seconds=response_window_s)
         self.on_fail_cb = []
@@ -52,7 +52,6 @@ class ProtocolRunner(threading.Thread):
             # did we press the button in time?
             if( diff <= self.response_window_s):                
                 self.hardware.dispense()
-                #self.data_interface.log_success() # this needs to be moved out
                 self.experiment_running = False
                 self.last_experiment = dt.datetime.now()
                 [cb() for cb in self.on_end_cb]
@@ -66,7 +65,7 @@ class ProtocolRunner(threading.Thread):
                 if( self.experiment_running ):
                     if( diff > self.response_window_s ):
                         self.experiment_running = False
-                        self.data_interface.log_fail() # this needs to be moved out 
+                        #self.data_interface.log_fail() # this needs to be moved out 
                         self.last_experiment = dt.datetime.now()
                         [cb() for cb in self.on_end_cb]
                         [cb() for cb in self.on_fail_cb]

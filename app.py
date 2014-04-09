@@ -48,7 +48,7 @@ def notify_fail():
 myData = DataInterface()
 myhw = HardwareInterface()
 myci = CameraInterface('./img/live.png')
-mypr = ProtocolRunner(myhw,myData)
+mypr = ProtocolRunner(myhw)
 
 # experiment notifications
 mypr.add_on_pass_cb(myData.log_success)
@@ -99,6 +99,7 @@ def img_static(filename):
     return static_file(filename, root='./css')
 
 @error(404)
+@error(500)
 def error404(error):
     with open('./views/fourohfour.tpl','r') as fp:
         data = fp.read()
