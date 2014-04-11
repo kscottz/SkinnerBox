@@ -17,4 +17,9 @@ sudo apt-get install python-matplotlib
 * if mongo explodes: mongod --dbpath /var/lib/mongodb --repair
   * then sudo rm the lock file
   * sudo /etc/init.d/mongod start
- 
+  
+
+* Original bottle-bootstrap code cribbed from [here](https://github.com/ejconlon/bottle-bootstrap).
+* Complete build instructions [here]( http://www.kscottz.com/)
+* 3D Models are [here.]()
+* Some build photos can be [found here.](http://imgur.com/a/Aiw09)
