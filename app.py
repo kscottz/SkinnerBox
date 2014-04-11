@@ -1,18 +1,22 @@
 #!/usr/bin/env python
 import sys, os, signal, time
+# load our bottle tools.
 from bottle import route, run, static_file, template, view, post, get, error, SimpleTemplate
 from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
-import datetime as dt
 import gevent
+# our modules
 from modules.HardwareInterface import *
 from modules.CameraInterface import *
 from modules.DataInterface import *
 from modules.ProtocolRunner import *
+import datetime as dt
 import picamera
 import json
 
 
+# this wraps our message in json
+# and sends it to the websocket
 def send_msg(name,value,color=None):
     now = dt.datetime.now()
     msg = {}
@@ -23,6 +27,8 @@ def send_msg(name,value,color=None):
     for u in users:
         u.send(json.dumps(msg))
 
+# these functions are used  as our callbacks to
+# to dispatch messages to the websocket. 
 def notify_buzz():
     send_msg("Buzzer Sound",None)
 
@@ -50,7 +56,7 @@ myhw = HardwareInterface()
 myci = CameraInterface('./img/live.png')
 mypr = ProtocolRunner(myhw)
 
-# experiment notifications
+# experiment notification callback
 mypr.add_on_pass_cb(myData.log_success)
 mypr.add_on_pass_cb(notify_pass)
 mypr.add_on_fail_cb(myData.log_fail)
@@ -79,7 +85,7 @@ myci.set_motion_callback(myData.log_activity)
 myhw.on_button_up(mypr.button_callback)
 
 
-# OKAY GO!
+# OKAY -- start our threads
 myci.start()
 myhw.start()
 mypr.start()
@@ -98,6 +104,9 @@ def img_static(filename):
 def img_static(filename):
     return static_file(filename, root='./css')
 
+
+# handle our error pages -- need to manually load
+# the template file. 
 @error(404)
 @error(500)
 def error404(error):
@@ -107,30 +116,34 @@ def error404(error):
         return template.render(error=error,title="ruh roh!")
     
 
+# buze once 
 @post("/buzz")
 def buzz():
     myhw.buzz_once()
     for u in users:
         u.send("buzz")
 
+# run the feeder 
 @post("/feed")
 def dispense():
     myhw.dispense()
     for u in users:
         u.send("feed")
 
-
+# Render the pictures page
 @route("/pics")
 @view("live")
 def live():
-    return dict(title = "Live Pictures", button="derp2", content = "")
+    return dict(title = "Live Pictures", button="", content = "")
 
+# Render the plot then render the activity page.
 @route("/activity")
 @view("activity")
 def activity():
     myData.generateActivity('./img/activity.png')
     return dict(title = "Activity Monitor", button="", content = "")
 
+# Render the pass fail plot then setup the page. 
 @route("/passfail")
 @view("plot")
 def live():
@@ -141,6 +154,7 @@ def live():
                 content = "")
 
 
+# Dump a key value pair to table with some bootstrap formating
 def make_table(data,title):
     retVal = ''
     retVal += '<div class="table-responsive"> '
@@ -158,6 +172,8 @@ def make_table(data,title):
     retVal += '</div>'
     return retVal
 
+
+# generate the experiment stats, render the table, send it to the template
 @route("/stats")
 @view("stats")
 def live():
@@ -168,22 +184,25 @@ def live():
                 activity = make_table(stats['activity'],"Today's Activity")
                 )
 
+# about the author
 @route("/about")
 @view("about")
 def about():
     return dict(title = "About")
 
+# render the control page. 
 @route("/controls")
 @view("controls")
 def controls():
     return dict(title = "Controls")
 
-
+# render the main page.
 @route("/")
 @view("main")
 def main():
     return dict(title = "Live Feed", button="", content = "")
 
+# Setup the socket and dispatch any messages.
 users = set()
 @get('/websocket', apply=[websocket])
 def chat(ws):
@@ -198,6 +217,10 @@ def chat(ws):
             break
     users.remove(ws)    
 
+# this is super important -- on ctrl-c ask the threads
+# to stop the main loop and give them a second to do so
+# We shouldn't have to join them if they are daemon's but
+# it doesn't hurt
 def signal_handler(signal, frame):
     mypr.shutdown()
     time.sleep(2)
