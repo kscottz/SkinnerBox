@@ -68,6 +68,7 @@ mypr.add_on_end_cb(myData.log_stop)
 # button notifications
 myhw.on_button_up(notify_click)
 myhw.on_button_up(myData.log_press)
+myhw.on_button_up(mypr.button_callback)
 
 # buzz notifications
 myhw.on_buzz(myData.log_buzz)
@@ -80,10 +81,6 @@ myhw.on_feed(notify_feed)
 # motion notifications
 myci.set_motion_callback(notify_motion)
 myci.set_motion_callback(myData.log_activity)
-
-# button notifications
-myhw.on_button_up(mypr.button_callback)
-
 
 # OKAY -- start our threads
 myci.start()
@@ -116,19 +113,15 @@ def error404(error):
         return template.render(error=error,title="ruh roh!")
     
 
-# buze once 
+# buzz once 
 @post("/buzz")
 def buzz():
     myhw.buzz_once()
-    for u in users:
-        u.send("buzz")
 
 # run the feeder 
 @post("/feed")
 def dispense():
     myhw.dispense()
-    for u in users:
-        u.send("feed")
 
 # Render the pictures page
 @route("/pics")
