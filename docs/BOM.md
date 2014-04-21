@@ -1,7 +1,7 @@
 |Part|Quantity|Desc|Price|Extended Price|Vendor|
-|--|--|--|--|--|--|
-|Raspberry Pi|1||$39.95|$39.95|https://www.adafruit.com/product/998|
-|RPi IR Camera|1||$29.95|$29.95|https://www.adafruit.com/products/1567|
+|----|--------|----|-----|--------------|------|
+|Raspberry Pi | 1|  | $39.95| $39.95| https://www.adafruit.com/product/998|
+|RPi IR Camera| 1|  | $29.95| $29.95| https://www.adafruit.com/products/1567|
 |USB 802.11 Module|1|Wifi|$11.95|$11.95|https://www.adafruit.com/product/814|
 |SD Card|1|Need larger card for mongo|$12.21|$12.21|http://www.amazon.com/Transcend-Class-Flash-Memory-TS16GSDHC10E/dp/B003VNKNEQ|
 |ULN2803|1|Stepper Driver|$1.95|$1.95|https://www.adafruit.com/products/970|
